@@ -67,7 +67,7 @@ func (c *LxcAttachCommunicator) Upload(dst string, r io.Reader, fi *os.FileInfo)
 		return fmt.Errorf("Error uploading file to rootfs: %s", err)
 	}
 	defer os.Remove(tf.Name())
-	io.Copy(tf, r)
+	_, _ = io.Copy(tf, r)
 
 	attachCommand := []string{"cat", "%s", " | ", "lxc-attach"}
 	attachCommand = append(attachCommand, c.AttachOptions...)
@@ -88,7 +88,7 @@ func (c *LxcAttachCommunicator) Upload(dst string, r io.Reader, fi *os.FileInfo)
 			return err
 		}
 		defer os.Remove(adjustedTempName)
-		ShellCommand(mvCmd).Run()
+		_ = ShellCommand(mvCmd).Run()
 		// change cpCmd to use new file name as source
 		cpCmd, err = c.CmdWrapper(fmt.Sprintf(strings.Join(attachCommand, " "), adjustedTempName, c.ContainerName, dst))
 		if err != nil {

@@ -1,13 +1,9 @@
-# Scaffolding Plugins
+# LXC Plugin
 
-<!--
-  Include a short overview about the plugin.
+The LXC plugin allows building containers for lxc1. The plugin contains a single builder [lxc](/docs/builders/lxc.mdx),
+which starts an LXC container, runs provisioners within this container, then exports the container
+as a tar.gz of the root file system.
 
-  This document is a great location for creating a table of contents for each
-  of the components the plugin may provide. This document should load automatically
-  when navigating to the docs directory for a plugin.
-
--->
 
 ## Installation
 
@@ -25,9 +21,9 @@ Then, run [`packer init`](https://www.packer.io/docs/commands/init).
 ```hcl
 packer {
   required_plugins {
-    name = {
+    lxc = {
       version = ">= 0.0.1"
-      source  = "github.com/hashicorp/name"
+      source  = "github.com/hashicorp/lxc"
     }
   }
 }

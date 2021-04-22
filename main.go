@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/hashicorp/packer-plugin-lxc/builder/lxc"
 	"github.com/hashicorp/packer-plugin-sdk/plugin"
 	"github.com/hashicorp/packer-plugin-sdk/version"
 )
@@ -24,6 +25,7 @@ var (
 
 func main() {
 	pps := plugin.NewSet()
+	pps.RegisterBuilder(plugin.DEFAULT_NAME, new(lxc.Builder))
 	pps.SetVersion(PluginVersion)
 	err := pps.Run()
 	if err != nil {
