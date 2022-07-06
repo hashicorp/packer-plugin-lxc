@@ -105,6 +105,11 @@ func (c *LxcAttachCommunicator) UploadDir(dst string, src string, exclude []stri
 	// TODO: remove any file copied if it appears in `exclude`
 	dest := filepath.Join(c.RootFs, dst)
 	log.Printf("Uploading directory '%s' to rootfs '%s'", src, dest)
+
+	// Source directories with a trailing slash should only copy the contents of the directory
+	if strings.HasSuffix(src, "/") {
+		src = fmt.Sprintf("%s/.", src)
+	}
 	cpCmd, err := c.CmdWrapper(fmt.Sprintf("cp -R %s %s", src, dest))
 	if err != nil {
 		return err
