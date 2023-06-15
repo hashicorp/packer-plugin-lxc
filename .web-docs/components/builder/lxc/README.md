@@ -1,14 +1,3 @@
----
-description: |
-  The `lxc` Packer builder builds containers for lxc. The builder starts an LXC
-  container, runs provisioners within this container, then exports the container
-  as a tar.gz of the root file system.
-page_title: LXC - Builders
-nav_title: LXC
----
-
-# LXC Builder
-
 Type: `lxc`
 Artifact BuilderId: `ustream.lxc`
 
