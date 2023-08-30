@@ -27,5 +27,5 @@ $ packer plugins install github.com/hashicorp/lxc
 
 #### Builders
 
-- [builder](/packer/integrations/hashicorp/lxc/latest/components/builder/lxc) - The LXC builder builds containers for LXC by starting
+- [lxc](/packer/integrations/hashicorp/lxc/latest/components/builder/lxc) - The LXC builder builds containers for LXC by starting
   a container, provisioning it, and exporting it as a tar.gz archive of the root file system.
