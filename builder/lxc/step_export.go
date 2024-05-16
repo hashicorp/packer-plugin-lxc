@@ -62,16 +62,20 @@ func (s *stepExport) Run(ctx context.Context, state multistep.StateBag) multiste
 		ui.Error(err.Error())
 		return multistep.ActionHalt
 	}
-	commands := make([][]string, 3)
-	commands[0] = []string{
-		"lxc-stop", "--name", name,
-	}
-	commands[1] = []string{
-		"tar", "-C", containerDir, "--numeric-owner", "--anchored", "--exclude=./rootfs/dev/log", "-czf", outputPath, "./rootfs",
-	}
-	commands[2] = []string{
-		"chmod", "+x", configFilePath,
-	}
+
+        commands := make([][]string, 4)
+        commands[0] = []string{
+                "lxc-stop", "--name", name,
+        }
+        commands[1] = []string{
+                "sudo", "setfacl", "-R", "-m", fmt.Sprintf("u:%s:rwx", user.Uid), filepath.Join(containerDir, "rootfs"),
+        }
+        commands[2] = []string{
+                "tar", "-C", containerDir, "--numeric-owner", "--anchored", "--exclude=./rootfs/dev/log", "-czf", outputPath, "./rootfs",
+        }
+        commands[3] = []string{
+                "chmod", "+x", configFilePath,
+        }
 
 	ui.Say("Exporting container...")
 	for _, command := range commands {
