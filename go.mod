@@ -1,6 +1,6 @@
 module github.com/hashicorp/packer-plugin-lxc
 
-go 1.21.0
+go 1.23.0
 
 require (
 	github.com/hashicorp/hcl/v2 v2.19.1
