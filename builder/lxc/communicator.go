@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -69,7 +68,7 @@ func (c *LxcAttachCommunicator) Upload(dst string, r io.Reader, fi *os.FileInfo)
 	if err != nil {
 		return fmt.Errorf("Error uploading file to rootfs: %s", err)
 	}
-	defer os.Remove(tf.Name())
+	defer func() { _ = os.Remove(tf.Name()) }()
 	_, _ = io.Copy(tf, r)
 
 	attachCommand := []string{"cat", "%s", " | ", "lxc-attach"}
@@ -90,7 +89,7 @@ func (c *LxcAttachCommunicator) Upload(dst string, r io.Reader, fi *os.FileInfo)
 		if err != nil {
 			return err
 		}
-		defer os.Remove(adjustedTempName)
+		defer func() { _ = os.Remove(adjustedTempName) }()
 		_ = ShellCommand(mvCmd).Run()
 		// change cpCmd to use new file name as source
 		cpCmd, err = c.CmdWrapper(fmt.Sprintf(strings.Join(attachCommand, " "), adjustedTempName, c.ContainerName, dst))
@@ -128,7 +127,7 @@ func (c *LxcAttachCommunicator) Download(src string, w io.Writer) error {
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	if _, err := io.Copy(w, f); err != nil {
 		return err
@@ -173,7 +172,7 @@ func (c *LxcAttachCommunicator) CheckInit() (string, error) {
 		return "", err
 	}
 
-	output, err := ioutil.ReadAll(pr)
+	output, err := io.ReadAll(pr)
 
 	if err != nil {
 		return "", err

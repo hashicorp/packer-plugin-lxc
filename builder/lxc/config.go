@@ -33,7 +33,7 @@ type Config struct {
 	// as ssh so you can execute packer builds on a remote host. Defaults to
 	// `{{.Command}}`; i.e. no wrapper.
 	CommandWrapper string `mapstructure:"command_wrapper" required:"false"`
-	// The timeout in seconds to wait for the the
+	// The timeout in seconds to wait for the
 	// container to start. Defaults to 20 seconds.
 	InitTimeout time.Duration `mapstructure:"init_timeout" required:"false"`
 
